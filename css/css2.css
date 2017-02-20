@@ -25,15 +25,12 @@ body{
 /* CARTE */
 
 #carte {
-    margin:auto;
-    height: auto;
-    width: 700px;
-    margin-top:-160px;
+    width: 100%; height: 100%;
 }
 .blocCarte {
-    height: 600px;
+    /*height: 600px;
     width:auto;
-    overflow:hidden;
+    overflow:hidden*/
 }
 #carte g:hover {
   fill: #fc0 !important;
@@ -61,14 +58,11 @@ body{
 }
 
 #Menu{
-    margin:auto;
-    width:auto;
-	height:70px;
-    margin-bottom:10px;
+
 }
 .imgMenu{
-	width:50px;
-	height:50px;
+	width:25px;
+	height:25px;
 	margin:5px;
 }
 
@@ -236,7 +230,7 @@ body{
 }
 
 .titre{
-    font-size:30px;
+    font-size:20px;
     color: white;
     text-shadow: 2px 2px 4px #000000;
     font-weight: bolder;
@@ -259,6 +253,18 @@ body{
     font-weight: bolder;
     display: block;
 }
+.titreMoyen{
+    font-size:15px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    font-weight: bolder;
+}
+.titreMoyen2{
+    font-size:12px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    font-weight: bolder;
+}
 
 .titreNoir{
     font-size:30px;
@@ -268,8 +274,12 @@ body{
 }
 
 .urgent{
-	color:#ff3300;
+	color:#f47932;
     
+}
+
+.jaune{
+    color:#fffbb5;
 }
 
 .happy{
@@ -278,7 +288,7 @@ body{
 }
 .firstLetter{
 	color:#000000;
-	background-color:#ff3300;
+	background-color:#f47932;
 	padding-right:5px;
 	padding-left:3px;
 	text-shadow: 0px 0px 0px #000000;
@@ -293,7 +303,7 @@ body{
     font-size:12px;
     color: white;
     text-shadow: 2px 2px 4px #000000;
-    font-weight: bolder;
+    
     display: block;
     margin-top :20px;
     margin-bottom:10px;
@@ -352,32 +362,27 @@ body{
 
 .blocHighlight2{
     background-color: rgba(0, 0, 0,0.7);
-    margin:10px;
-    width:400px;
-    height:200px;
-    float:left;
+    height:150px;
     overflow: hidden,;
 }
 
 .blocHighlight2 .p1{
     width:100px;
-    height:200px;
-    float:left;
-    overflow: hidden;
+    height:150px;
+    overflow-y: hidden;
 }
 
 .blocHighlight2 .hoverResult{
-    width:300px;
-    height:200px;
-    float:left;
-    overflow: hidden;
+    height:150px;
     color:#ffffff;
 }
 
+
 .hoverInside{
-    width:300px;
-    height:200px;
-    overflow: hidden,;
+    width:auto;
+    height:150px;
+    color:#ffffff;
+    font-size: 12px;
 }
 
 .blocHighlight{
@@ -404,8 +409,9 @@ body{
 .blocNoirParent{
     background-color: rgba(0, 0, 0,0.7);
     overflow-y: auto;
-    padding: 10px;
     width:auto;
+    color:#ffffff;
+    font-size: 10px;
 }
 .blocTrans{
     overflow-y: auto;
@@ -414,15 +420,19 @@ body{
     text-align: left;
 }
 .detailContenu{
-    background-color: rgba(255, 255, 255,0.7);
-    overflow-y: auto;
-    padding: 10px;
-    width:auto;
+    background-color: rgba(255, 255, 255,1);
+    color:#000000;
+    font-size: 10px;
+    margin-top: 4px;
 }
 .bloc{
     background-color: #ffffff;
     padding: 10px;
     width:auto;
+}
+
+.imgcrise{
+    width:60px;
 }
 
 .TextSlide{
@@ -463,10 +473,19 @@ body{
     font-weight: bolder;
 }
 
+.texteTresGrand{
+    font-family: 'Calibri';
+    font-weight: bolder;
+    font-size: 50px;
+	color:#ffffff;
+	height:30px;
+	overflow-y:hidden;
+}
 .texteMoyen{
     font-family: 'Calibri';
     font-weight: bolder;
     font-size: 22px;
+    color:#ffffff;
 }
 .texte2xBolder{
     font-family: 'Calibri';
@@ -475,6 +494,16 @@ body{
 }
 
 .texte2x{
+    font-family: 'Calibri';
+    font-size: 16px;
+	color:#ffffff;
+}
+.textePetit2{
+    font-family: 'Calibri';
+    font-size: 10px;
+	color:#ffffff;
+}
+.textePetit3{
     font-family: 'Calibri';
     font-size: 16px;
 	color:#ffffff;
@@ -488,6 +517,10 @@ body{
     text-align: center;
 }
 
+.socialImg{
+    margin: 5px;
+}
+
 .ContenuAGauche{
     text-align: left;
 }
@@ -496,15 +529,20 @@ body{
     margin:5px;
 }
 
-#clickOnSector, #clickOnMap{
-    margin:10px;
-    position:absolute;
-    border-radius: 25px;
-    padding:10px;
-    font-size: 20px;
-    background-color: rgba(255, 255, 255,0.7);
-    width:auto;
-    height:auto;
+#legende{
+    position: absolute;
+    text-align: left;
+    color:#000000;
+    background-color: white;
+    border-radius: 5px;
+    padding:4px;
+    padding-left:8px;
+    padding-right:8px;
+    margin:4px;
+    font-size: 12px;
+}
+
+#clickOnSector{
 }
 #clickToScroll{
     margin:10px;
@@ -519,16 +557,37 @@ body{
     height:auto;
 }
 
+
+.blocShareGauche{
+    background-color: rgba(255, 255, 255,0.7);
+    height: auto;
+    width: 100%;
+    overflow-y: auto;
+}
+
 .detailContenu ul li{
     text-align: left;
-    font-size: 12px;
     font-weight: bolder;
-    color:#000000;
+    color:#595959;
 }
 
 .detailContenu p{
     
+    margin-left:2px;
+    margin-right:2px;
+    color:#595959;
 }
+
+.titreInfo{
+    font-size:12px;
+}
+
+.bordureBottomGris{
+    border-bottom: 1px solid;
+    border-bottom-color: #d9d9d9;
+}
+
+
 
 .regionInfoPanel{
     font-size: 12px;
