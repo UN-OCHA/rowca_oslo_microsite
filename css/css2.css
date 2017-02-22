@@ -267,6 +267,11 @@ body{
     font-weight: bolder;
 }
 
+.titreBig2{
+    font-size:30px;
+    font-weight: bolder;
+    display: block;
+}
 .titreNoir{
     font-size:30px;
     color: #000000;
@@ -307,6 +312,19 @@ body{
     font-size: 100px;
     font-weight: bolder;
     box-shadow: 4px 4px 10px rgba(153, 31, 0, 0.4);
+}
+.texteFond{
+    font-size:15px;
+    color: white;
+}
+.texte2{
+    font-size:11px;
+    color: white;
+    text-shadow: 2px 2px 4px #000000;
+    
+    display: block;
+    margin-top :20px;
+    margin-bottom:10px;
 }
 .texte{
     font-size:12px;
@@ -566,16 +584,23 @@ body{
 
 #legende{
     position: absolute;
-    text-align: left;
     color:#ffffff;
-    background-color: black;
-    border-radius: 5px;
-    padding:4px;
-    padding-left:8px;
-    padding-right:8px;
-    margin:4px;
     margin-top: 50%;
+    height:30px;
+    font-family: "calibri";
     font-size: 12px;
+    text-align: left;
+}
+
+#fondLegende{
+    position: relative;
+    display: inline-block;
+    width:100px;
+    height:20px;
+}
+
+.imgShare{
+    width:60px;
 }
 
 #clickOnSector{
@@ -687,4 +712,18 @@ body{
     right: 50px;
     margin-top:10px;
     top:0px;
+}
+
+
+.socialImg, .imgMenu:hover{ cursor:pointer}
+
+
+
+.lien{
+    background-color: #f47932;
+    color:black;
+}
+.lien:hover{
+    background-color: #6dcff6;
+    color:black;
 }

@@ -263,19 +263,32 @@ function MapNeeds(){
     
     
     //GESTION DES LEGENDES
-    $('#legende').html("");
-    $('#legende').append("People in need<br/>");
-    //$('#legende').append("<svg height='10' width='10'><circle cx='5' cy='5' r='5' stroke='black' stroke-width='1' fill='#ffffff' /></svg> 0<br/>");
+    maxValLegende= 0;
+    //FORMAT MILLIER
+    if(highest_value<1000000){
+        maxValLegende = Math.round(highest_value/1000)+"K";
+    }
+    //FORMAT MILLION
+    if(highest_value>=1000000){
+        maxValLegende = highest_value/1000000;
+        maxValLegende = maxValLegende.toFixed(1)+"M";
+    }
     
+    //$('#legende').append("<svg height='10' width='10'><circle cx='5' cy='5' r='5' stroke='black' stroke-width='1' fill='#ffffff' /></svg> 0<br/>");
+    $('#fondLegende').css({
+        background: "-webkit-gradient(linear, left top, right bottom, from(rgba(0, 0, 0,0.7)), to(#6dcff6))"
+    });
+    $("#maxValueLegende").html(" "+maxValLegende);
     
 	
     for(i=0; i < regions.length; i++) {
         valInneed = regions[i].inNeeds/highest_value;
         //GESTION LEGENDE
+        /*
         if(regions[i].inNeeds!=0&&regions[i].region!='Total'){
             $('#legende').append("<svg height='13' width='13'><circle cx='6' cy='6' r='6' stroke='white' stroke-width='1' fill='rgba(109, 207, 246,"+ valInneed + ")' /></svg> "+regions[i].inNeeds+"<br/>");
         }
-        
+        */
         
         
 		$('#'+ regions[i].region).css({'fill': 'rgba(109, 207, 246,'+ valInneed + ')'}).data('region', regions[i]);
@@ -291,35 +304,40 @@ function LoadMapData(datas){
     });
     var highest_value = Math.max.apply( Math, temp_array );
     
-    $('#legende').html("");
-    $('#legende').append("People in need<br/>");
+
     for(i=0; i < regions.length; i++) {
-        valInneed = regions[i].inNeeds/highest_value;
-        //GESTION LEGENDE
-        
-        if(regions[i].inNeeds!=0&&regions[i].region!='Total'){
+        if(highest_value==0){
+            
+            $('#fondLegende').css({
+                background: "-webkit-gradient(linear, left top, right bottom, from(rgba(0, 0, 0,0.7)), to(#000000))"
+            });
+            $("#maxValueLegende").html(" N/A");
+            $('#'+ regions[i].region).css({'fill': 'rgba(109, 207, 246,0)'}).data('region', regions[i]);
+            
+            
+            
+            
+        }else{
+            valInneed = regions[i].inNeeds/highest_value;
+            //GESTION DES LEGENDES
+            maxValLegende= 0;
+            //FORMAT MILLIER
+            if(highest_value<1000000){
+                maxValLegende = Math.round(highest_value/1000)+"K";
+            }
             //FORMAT MILLION
-            /*if(inNedd<1000000){
-                inNedd = Math.round(inNedd/1000);
-                inNedd = inNedd+"K";
+            if(highest_value>=1000000){
+                maxValLegende = highest_value/1000000;
+                maxValLegende = maxValLegende.toFixed(1)+"M";
             }
-            if(inNedd>=1000000 && inNedd<10000000){
-                inNedd = inNedd/1000000;
-                inNedd = inNedd.toFixed(1)+"M";
-            }
-            if(inNedd>=10000000){
-                inNedd = inNedd/10000000;
-                inNedd = inNedd.toFixed(1)+"B";
-            }*/
-            
-            
-            
-            $('#legende').append("<svg height='13' width='13'><circle cx='6' cy='6' r='6' stroke='white' stroke-width='1' fill='rgba(109, 207, 246,"+ valInneed + ")' /></svg> "+regions[i].inNeeds+"<br/>");
-        }
-        
-        
-        
-		$('#'+ regions[i].region).css({'fill': 'rgba(109, 207, 246,'+ regions[i].inNeeds/highest_value + ')'}).data('region', regions[i]);
+
+            //$('#legende').append("<svg height='10' width='10'><circle cx='5' cy='5' r='5' stroke='black' stroke-width='1' fill='#ffffff' /></svg> 0<br/>");
+            $('#fondLegende').css({
+                background: "-webkit-gradient(linear, left top, right bottom, from(rgba(0, 0, 0,0.7)), to(#6dcff6))"
+            });
+            $("#maxValueLegende").html(" "+maxValLegende);
+            $('#'+ regions[i].region).css({'fill': 'rgba(109, 207, 246,'+ regions[i].inNeeds/highest_value + ')'}).data('region', regions[i]);
+        } 
     }
 }
 
@@ -379,11 +397,12 @@ $('#carte g polygon').mouseover(function (e) {
         target = target/10000000;
         target = target.toFixed(1)+"M";
     }
-    if(requier>=1000000 && requier<10000000){
+    if(requier>=1000000){
         requier = requier/1000000;
         requier = requier.toFixed(1)+"M";
     }
     
+    /*
     //FORMAT MILLIARD
     if(inNedd>=10000000){
         inNedd = inNedd/10000000;
@@ -397,6 +416,7 @@ $('#carte g polygon').mouseover(function (e) {
         requier = requier/10000000;
         requier = requier.toFixed(1)+"B";
     }
+    */
     
     
     
@@ -407,7 +427,7 @@ $('#carte g polygon').mouseover(function (e) {
 		+ region_data.region + '</span><br>' 
 		+ 'People in need: '+ inNedd + '<br>' 
 		+ 'People targeted: '+ target + '<br>' 
-		+ '$ Requirement: '+ requier
+		+ 'Requirement in US$: '+ requier
 		+ '</div>').appendTo('body');
     
     //CHANGEMENT DU FONDS DE LA CARTE
@@ -421,7 +441,13 @@ $('#carte g polygon').mouseover(function (e) {
     //REMISE DES COULEURS DE CHAQUE REGION DE LA CARTE
     $('#carte #Regions polygon').each(function() {
         var regionData=$(this).data('region');
-        $('#'+ regionData.region).css({'fill': 'rgba(109, 207, 246,'+ regionData.inNeeds/region_total.inNeeds + ')'});
+        
+        if(region_total.inNeeds==0){
+            $('#'+ regionData.region).css({'fill': 'rgba(109, 207, 246,0)'});
+        }else{
+            $('#'+ regionData.region).css({'fill': 'rgba(109, 207, 246,'+ regionData.inNeeds/region_total.inNeeds + ')'});
+        }
+        
 	});
     
     
@@ -471,21 +497,21 @@ $('#carte g polygon').mouseover(function (e) {
     
     //FORMAT MILLION
     if(inNedd==0){
-        inNedd = "0";
+        inNedd = "N/A";
     }
     if(inNedd>0 && inNedd<1000000){
         inNedd = Math.round(inNedd/1000);
         inNedd = inNedd+"K";
     }
     if(target==0){
-        target = "0";
+        target = "N/A";
     }
     if(target>0 && target<1000000){
         target = Math.round(target/1000);
         target = target+"K";
     }
     if(requier==0){
-        requier = "0";
+        requier = "N/A";
     }
     if(requier>0 && requier<1000000){
         requier = Math.round(requier/1000);
@@ -601,14 +627,14 @@ $('#Menu img').click(function (e) {
 	
 	switch(id) {
 		case 'ImgCccm':
-			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Lac","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Yobe","inNeeds":141073,"Target":0,"FondsRequis":11560000,"Resume":null},{"region":"Borno","inNeeds":1675697,"Target":0,"FondsRequis":11560000,"Resume":null},{"region":"Far-North","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Adamawa","inNeeds":458974,"Target":0,"FondsRequis":11560000,"Resume":null},{"region":"Total","inNeeds":1675697,"Target":0,"FondsRequis":11560000,"Resume":null}]';
+			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Lac","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Yobe","inNeeds":141073,"Target":124706,"FondsRequis":11560000,"Resume":null},{"region":"Borno","inNeeds":1675697,"Target":505224,"FondsRequis":11560000,"Resume":null},{"region":"Far-North","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Adamawa","inNeeds":458974,"Target":170070,"FondsRequis":11560000,"Resume":null},{"region":"Total","inNeeds":1675697,"Target":505224,"FondsRequis":11560000,"Resume":null}]';
             
             
 
             
             //contenu="<div class='col-lg-12 titre'>Lake Chad Basin, Camp Coordinaton & Camp Management</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-12 col-lg-12'><span class='urgent'>2.2M</span> People in need</div><div class='col-xs-4 col-sm-4 col-md-12 col-lg-12'><span class='urgent'>0M</span> People targeted</div><div class='col-xs-4 col-sm-4 col-md-12 col-lg-12'><span class='urgent'>11.5M</span> requirement on 2017</div></div>";
 			
-            contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Camp Coordination & Camp Management</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>2.2</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>11.5</span><span class='happy'> M</span></div></div></div>";
+            contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Camp Coordination & Camp Management</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>2.2M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>11.5M</span></div></div></div>";
             
 			$("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -616,15 +642,15 @@ $('#Menu img').click(function (e) {
             
 			break;
 		case 'ImgEducation':
-			datas = '[{"region":"Diffa","inNeeds":137000,"Target":137000,"FondsRequis":9321153,"Resume":"<ul><li>Establish temporary learning spaces, improve the learning environment and provide education to 137,000 children.</li><li>Identify out-of-school children and establish alternative learning methods such as through radio broadcasts.</li><li>Distribute school kits, teaching material and implement school feeding programmes.</li><li>Train teachers to improve psychosocial support, prevention of SGBV, education for peace and disaster risk reduction.</li></ul>"},{"region":"Lac","inNeeds":128217,"Target":97640,"FondsRequis":6641907,"Resume":"To expand access to education for 92,000 targeted children in need of emergency education, it is necessary to:<ul><li>Extend education services to children out of school by providing temporary learning spaces and rehabilitating classrooms.</li><li>Improve the learning environment through distribution of learning and recreational kits, provision of school meals and training of teachers on psychosocial support.</li></ul>"},{"region":"Yobe","inNeeds":220020,"Target":0,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Borno","inNeeds":1861487,"Target":0,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Far-North","inNeeds":183317,"Target":155802,"FondsRequis":11753684,"Resume":"<ul><li>Ensure access to emergency education for more than 80,000 children (IDPs, refugees and hosts).</li><li>Train 1,200 teachers and staff in psychosocial support and education in emergency situations.</li><li>Provide teaching and learning materials to 1,200 teachers and 80,000 children (IDPs, refugees and hosts).</li><li>Implement an Emergency School Feeding programme for 80,000 children (IDPs and hosts).</li></ul>"},{"region":"Adamawa","inNeeds":779953,"Target":0,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Total","inNeeds":1861487,"Target":155802,"FondsRequis":56339244,"Resume":""}]';
+			datas = '[{"region":"Diffa","inNeeds":137000,"Target":137000,"FondsRequis":9321153,"Resume":"<ul><li>Establish temporary learning spaces, improve the learning environment and provide education to 137,000 children.</li><li>Identify out-of-school children and establish alternative learning methods such as through radio broadcasts.</li><li>Distribute school kits, teaching material and implement school feeding programmes.</li><li>Train teachers to improve psychosocial support, prevention of SGBV, education for peace and disaster risk reduction.</li></ul>"},{"region":"Lac","inNeeds":128217,"Target":97640,"FondsRequis":6641907,"Resume":"To expand access to education for 92,000 targeted children in need of emergency education, it is necessary to:<ul><li>Extend education services to children out of school by providing temporary learning spaces and rehabilitating classrooms.</li><li>Improve the learning environment through distribution of learning and recreational kits, provision of school meals and training of teachers on psychosocial support.</li></ul>"},{"region":"Yobe","inNeeds":220020,"Target":106500,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Borno","inNeeds":1861487,"Target":1063500,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Far-North","inNeeds":183317,"Target":155802,"FondsRequis":11753684,"Resume":"<ul><li>Ensure access to emergency education for more than 80,000 children (IDPs, refugees and hosts).</li><li>Train 1,200 teachers and staff in psychosocial support and education in emergency situations.</li><li>Provide teaching and learning materials to 1,200 teachers and 80,000 children (IDPs, refugees and hosts).</li><li>Implement an Emergency School Feeding programme for 80,000 children (IDPs and hosts).</li></ul>"},{"region":"Adamawa","inNeeds":779953,"Target":430000,"FondsRequis":56339244,"Resume":"<ul><li>Provide 1.6 million children aged 3 - 17 years with early childhood education, formal primary and non-formal basic literacy and vocational training.</li><li>Train education personnel in psychosocial first aid and referral mechanisms, social-emotional well-being and essential life skills such as mine risk awareness.</li><li>Empower communities to contribute to protecting, restoring and supporting learning for conflict-affected children.</li></ul>"},{"region":"Total","inNeeds":1861487,"Target":1063500,"FondsRequis":56339244,"Resume":""}]';
 			
             
-            //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Education</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>3.3M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>0.3M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>84M</span></div></div></div>");
+            //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Education</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>3.3M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>390K</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>84M</span></div></div></div>");
             
             
             
             
-            contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Education</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.3</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0.3</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>84</span><span class='happy'> M</span></div></div></div>";
+            contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Education</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.3M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>390K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>84M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -638,7 +664,7 @@ $('#Menu img').click(function (e) {
       
 			
 			
-            contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Early Recovery & Livelihoods</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>9</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0.2</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>62.5</span><span class='happy'> M</span></div></div></div>";
+            contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Early Recovery & Livelihoods</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>9M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>228K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>62.5M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -656,7 +682,7 @@ $('#Menu img').click(function (e) {
 			
 			
 			
-            contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Food Security & Agriculture</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7.3</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>5.9</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>645</span><span class='happy'> M</span></div></div></div>";
+            contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Food Security & Agriculture</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7.3M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>5.9M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>645M</span></div></div></div>";
             
             
             $("#SectorInfo").html(contenu);
@@ -671,13 +697,13 @@ $('#Menu img').click(function (e) {
             
           
 			
-            contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Health</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7.8</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>1.3</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>125.1</span><span class='happy'> M</span></div></div></div>";
+            contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Health</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7.8M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>1.3M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>125.1M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
 			break;
 		case 'ImgNutrition':
-			datas = '[{"region":"Diffa","inNeeds":72000,"Target":59000,"FondsRequis":7472866,"Resume":"<ul><li>Provide treatment to around 12,000 severely malnourished under 5 children and to around 44,000 children suffering from moderate malnutrition as well as ensuring regular community-based screening of malnourished children.</li><li>Provide preventive nutritional supplementation assistance to around 13,000 pregnant and lactating women, and to 1,700 children between 0 - 23 months at risk of malnutrition.</li><li>Promote infant and young child feeding programmes in emergency situations.</li></ul>"},{"region":"Lac","inNeeds":99956,"Target":64617,"FondsRequis":25301122,"Resume":"To combat alarming malnutrition rates in displacement sites, particularly during the lean period, it is essential to:<ul><li>Increase the detection of malnutrition among 22,000 children below the age of five.</li><li>Extend malnutrition treatment for 17,600 displaced children and children among the host community.</li></ul>"},{"region":"Yobe","inNeeds":840050,"Target":2323232,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Borno","inNeeds":1516085,"Target":646351,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Far-North","inNeeds":303187,"Target":151271,"FondsRequis":17023664,"Resume":"<ul><li>Provide therapeutic care for 27,000 children under 5 suffering from severe acute malnutrition (IDPs and host communities).</li><li>Accelerate programmes aimed at improving Infant and Young Child Feeding (IYCF) practices, targeting about 25,000 mothers and caregivers.</li><li>Ensure malnutrition prevention support through the implementation of blanket supplementary feeding for 135,000 children at risk of malnutrition.</li></ul>"},{"region":"Adamawa","inNeeds":1091631,"Target":839916,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Total","inNeeds":1516085,"Target":2323232,"FondsRequis":110268668,"Resume":""}]';
+			datas = '[{"region":"Diffa","inNeeds":72000,"Target":59000,"FondsRequis":7472866,"Resume":"<ul><li>Provide treatment to around 12,000 severely malnourished under 5 children and to around 44,000 children suffering from moderate malnutrition as well as ensuring regular community-based screening of malnourished children.</li><li>Provide preventive nutritional supplementation assistance to around 13,000 pregnant and lactating women, and to 1,700 children between 0 - 23 months at risk of malnutrition.</li><li>Promote infant and young child feeding programmes in emergency situations.</li></ul>"},{"region":"Lac","inNeeds":99956,"Target":64617,"FondsRequis":25301122,"Resume":"To combat alarming malnutrition rates in displacement sites, particularly during the lean period, it is essential to:<ul><li>Increase the detection of malnutrition among 22,000 children below the age of five.</li><li>Extend malnutrition treatment for 17,600 displaced children and children among the host community.</li></ul>"},{"region":"Yobe","inNeeds":840050,"Target":646351,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Borno","inNeeds":1516085,"Target":1167618,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Far-North","inNeeds":303187,"Target":151271,"FondsRequis":17023664,"Resume":"<ul><li>Provide therapeutic care for 27,000 children under 5 suffering from severe acute malnutrition (IDPs and host communities).</li><li>Accelerate programmes aimed at improving Infant and Young Child Feeding (IYCF) practices, targeting about 25,000 mothers and caregivers.</li><li>Ensure malnutrition prevention support through the implementation of blanket supplementary feeding for 135,000 children at risk of malnutrition.</li></ul>"},{"region":"Adamawa","inNeeds":1091631,"Target":839916,"FondsRequis":110268668,"Resume":"<ul><li>Improve access to quality services for the management of acute malnutrition with a particular focus on strengthening the management of severe malnutrition cases with medical complications.</li><li>Provide preventive nutrition assistance through micronutrient deficiency control, blanket supplementary feeding for children and pregnant and lactating women as well as infant feeding in emergencies.</li><li>Scale up assistance to children at risk of acute malnutrition (391,000 under five children) and pregnant and lactating women (185,500).</li></ul>"},{"region":"Total","inNeeds":1516085,"Target":1167618,"FondsRequis":110268668,"Resume":""}]';
 			
             
             //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Nutrition</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>3.9M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>2.9M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>162.3M</span></div></div></div>");
@@ -685,7 +711,7 @@ $('#Menu img').click(function (e) {
             
        
             
-			contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Nutrition</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.9</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>2.9</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>162.3</span><span class='happy'> M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Nutrition</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.9M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>2.9M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>162.3M</span></div></div></div>";
 			
 			
 			
@@ -693,7 +719,7 @@ $('#Menu img').click(function (e) {
 			//$("#SectorInfoMobile").html(contenu);
 			break;
 		case 'ImgProtection':
-			datas = '[{"region":"Diffa","inNeeds":236000,"Target":160000,"FondsRequis":27191638,"Resume":"<ul><li>Reinforce the national and community-based structures to identify, monitor and support around 160,000 people with specific needs related to protection (psychosocial support, unaccompanied children, 46,000 SGBV survivors,children associated with armed groups).</li><li>Provide identification documents to displaced people and ensure access to justice.</li><li>Ensure access to psychosocial support and recreational activities for displaced children.</li><li>Train and sensitize teams in community-based structures to prevent and manage conflicts, and prevent and mitigate mine risks.</li></ul>"},{"region":"Lac","inNeeds":153512,"Target":146518,"FondsRequis":11357945,"Resume":"In a context of military operations leading to displacements and increased human rights violations risks, it is essential to:<ul><li>Implement multi-sector referral and response mechanisms to ensure the protection of 65,000 people in displacement.</li><li>Strengthen community protection mechanisms to meet the specific needs of 10,000 people.</li></ul>"},{"region":"Yobe","inNeeds":541408,"Target":0,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Borno","inNeeds":4432669,"Target":0,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Far-North","inNeeds":551825,"Target":538118,"FondsRequis":18343842,"Resume":"<ul><li>Ensure adequate prevention mechanisms as well as response to protection incidents, including SGBV and child protection via robust protection monitoring, referral and follow-up.Monitor access to asylum for Nigerian nationals and advocate the respect of international protection norms such as non-refoulement.</li><li>Provide legal and psychosocial assistance to IDPs and refugees in need and address the lack of documentation to prevent statelessness.</li><li>Build government protection capacity through targeted training, support and capacity development; reinforce the capacity of community-based protection mechanisms through training, awareness-raising and mobilisation.</li></ul>"},{"region":"Adamawa","inNeeds":1143975,"Target":0,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Total","inNeeds":4432669,"Target":538118,"FondsRequis":88274151,"Resume":""}]';
+			datas = '[{"region":"Diffa","inNeeds":236000,"Target":160000,"FondsRequis":27191638,"Resume":"<ul><li>Reinforce the national and community-based structures to identify, monitor and support around 160,000 people with specific needs related to protection (psychosocial support, unaccompanied children, 46,000 SGBV survivors,children associated with armed groups).</li><li>Provide identification documents to displaced people and ensure access to justice.</li><li>Ensure access to psychosocial support and recreational activities for displaced children.</li><li>Train and sensitize teams in community-based structures to prevent and manage conflicts, and prevent and mitigate mine risks.</li></ul>"},{"region":"Lac","inNeeds":153512,"Target":146518,"FondsRequis":11357945,"Resume":"In a context of military operations leading to displacements and increased human rights violations risks, it is essential to:<ul><li>Implement multi-sector referral and response mechanisms to ensure the protection of 65,000 people in displacement.</li><li>Strengthen community protection mechanisms to meet the specific needs of 10,000 people.</li></ul>"},{"region":"Yobe","inNeeds":541408,"Target":170912,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Borno","inNeeds":4432669,"Target":1719549,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Far-North","inNeeds":551825,"Target":538118,"FondsRequis":18343842,"Resume":"<ul><li>Ensure adequate prevention mechanisms as well as response to protection incidents, including SGBV and child protection via robust protection monitoring, referral and follow-up.Monitor access to asylum for Nigerian nationals and advocate the respect of international protection norms such as non-refoulement.</li><li>Provide legal and psychosocial assistance to IDPs and refugees in need and address the lack of documentation to prevent statelessness.</li><li>Build government protection capacity through targeted training, support and capacity development; reinforce the capacity of community-based protection mechanisms through training, awareness-raising and mobilisation.</li></ul>"},{"region":"Adamawa","inNeeds":1143975,"Target":542766,"FondsRequis":88274151,"Resume":"<ul><li>Improve access to child protection services and psychosocial support for 900,000 boys and girls. Support the prevention of and response to grave child rights violations.</li><li>Increase access to well-coordinated, multi-sectoral services for GBV survivors (960,000 people at risk) by developing and strengthening referral systems and safe spaces.</li><li>Support livelihoods, resilience-building activities, access to justice and national protection and legal frameworks.</li></ul>"},{"region":"Total","inNeeds":4432669,"Target":1719549,"FondsRequis":88274151,"Resume":""}]';
             
             
             //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Protection</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>7M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>0.8M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>145.1M</span></div></div></div>");
@@ -701,7 +727,7 @@ $('#Menu img').click(function (e) {
  
 			
 			
-			contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Protection</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0.8</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>145.1</span><span class='happy'> M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Protection</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>7M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>844K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>145.1M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -716,13 +742,13 @@ $('#Menu img').click(function (e) {
    
 			
 			
-			contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Shelter</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.2</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0.6</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>90.8</span><span class='happy'> M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Shelter</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>3.2M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>661K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>90.8M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
 			break;
 		case 'ImgWash':
-			datas = '[{"region":"Diffa","inNeeds":330000,"Target":326000,"FondsRequis":13600000,"Resume":"<ul><li>Improve access to water, sanitation and hygiene to around 330,200 people at temporary displacement sites or in host communities through the establishment of emergency and permanent water supply facilities.</li> <li>Support the treatment of severe malnutrition among 7,294 children through the construction or rehabilitation of water and sanitation facilities at health centres and the promotion of proper hygiene practices.</li><li>Provide WASH services for around 178,000 people in areas at high risk of cholera outbreaks.</li></ul>"},{"region":"Lac","inNeeds":219894,"Target":118092,"FondsRequis":3881207,"Resume":"To ensure integrated access to drinking water, hygiene promotion and basic sanitation services in order to improve the living conditions of people affected by population movements, it is necessary to:<ul><li>Increase access to drinking water for 35,000 people (water points and treatment) according to the Sphere norms and standards.</li><li>Promote good hygiene practices (latrines and waste management) and access to adequate sanitation services for 70,000 people in order to prevent disease.</li></ul>"},{"region":"Yobe","inNeeds":197046,"Target":0,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Borno","inNeeds":2838451,"Target":0,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Far-North","inNeeds":462060,"Target":320167,"FondsRequis":13698474,"Resume":"<ul><li>Provide access to safe drinking water, sanitation and hygiene services to 123,000 people, including 54,000 IDPs and refugees out of camp by constructing and rehabilitating 200 boreholes and 40 latrines.</li><li>Promote good hygiene awareness and distribute kits to 150,000 IDPs, refugees and host communities.</li></ul>"},{"region":"Adamawa","inNeeds":597934,"Target":0,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Total","inNeeds":2838451,"Target":326000,"FondsRequis":49736246,"Resume":""}]';
+			datas = '[{"region":"Diffa","inNeeds":330000,"Target":326000,"FondsRequis":13600000,"Resume":"<ul><li>Improve access to water, sanitation and hygiene to around 330,200 people at temporary displacement sites or in host communities through the establishment of emergency and permanent water supply facilities.</li> <li>Support the treatment of severe malnutrition among 7,294 children through the construction or rehabilitation of water and sanitation facilities at health centres and the promotion of proper hygiene practices.</li><li>Provide WASH services for around 178,000 people in areas at high risk of cholera outbreaks.</li></ul>"},{"region":"Lac","inNeeds":219894,"Target":118092,"FondsRequis":3881207,"Resume":"To ensure integrated access to drinking water, hygiene promotion and basic sanitation services in order to improve the living conditions of people affected by population movements, it is necessary to:<ul><li>Increase access to drinking water for 35,000 people (water points and treatment) according to the Sphere norms and standards.</li><li>Promote good hygiene practices (latrines and waste management) and access to adequate sanitation services for 70,000 people in order to prevent disease.</li></ul>"},{"region":"Yobe","inNeeds":197046,"Target":125742,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Borno","inNeeds":2838451,"Target":1448412,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Far-North","inNeeds":462060,"Target":320167,"FondsRequis":13698474,"Resume":"<ul><li>Provide access to safe drinking water, sanitation and hygiene services to 123,000 people, including 54,000 IDPs and refugees out of camp by constructing and rehabilitating 200 boreholes and 40 latrines.</li><li>Promote good hygiene awareness and distribute kits to 150,000 IDPs, refugees and host communities.</li></ul>"},{"region":"Adamawa","inNeeds":597934,"Target":403833,"FondsRequis":49736246,"Resume":"<ul><li>Rehabilitate water sources and improve supply in temporary IDP sites and in vulnerable communities for 1 million IDPs.</li><li>Construct WASH facilities and promote hygiene in temporary IDP sites, over-crowded host communities and areas of return for 600,000 IDPs and 400,000 members of host communities.</li></ul>"},{"region":"Total","inNeeds":2838451,"Target":1448412,"FondsRequis":49736246,"Resume":""}]';
             
             //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Water, Hygiene and sanitation (Wash)</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>4.6M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>0.7M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>81.2M</span></div></div></div>");
             
@@ -730,7 +756,7 @@ $('#Menu img').click(function (e) {
 
             
 			
-			contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Water, Hygiene and Sanitation (WASH)</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>4.6</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>0.7</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>81.2</span><span class='happy'> M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Water, Hygiene and Sanitation (WASH)</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>4.6M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>764K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>81.2M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -739,12 +765,38 @@ $('#Menu img').click(function (e) {
 		case 'ImgMsrr':
 			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":""},{"region":"Lac","inNeeds":8200,"Target":8200,"FondsRequis":11777881,"Resume":"To ensure continuity of international protection of refugees and to guarantee their access to essential services in accordance with international standards, it is necessary to:<ul><li>Protect 8,200 refugees against all forms of abuse, exploitation and violence.</li><li>Improve access to education for 400 refugee children through the construction of classrooms.</li><li>Increase the self-sufficiency of 500 refugee households.</li></ul>"},{"region":"Yobe","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":""},{"region":"Borno","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":""},{"region":"Far-North","inNeeds":86000,"Target":86000,"FondsRequis":33384663,"Resume":"<ul><li>Ensure optimal access to formal education for Nigerian refugee children by constructing/upgrading 105 classrooms and have at least 20,000 students (67 per cent of school-aged children at Minawao camp) enrolled and attending school on a regular basis.</li><li>Finalise and establish a permanent water supply system to respond to the needs of 85,000 people, including 75,000 in Minawao camp and 10,000 among the host community.</li></ul>"},{"region":"Adamawa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":""},{"region":"Total","inNeeds":86000,"Target":86000,"FondsRequis":33384663,"Resume":""}]';
             
-            //$("#SectorInfo").html("<div id='titre' class='titre ContenuAGauche'>Multi-Sector for refugees</div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/peopleUrgent.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>4.6M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/TargetX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>0.7M</span></div></div></div><div class='shadowBox centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><div class='col-xs-6 col-md-6  col-lg-6'><img src='images/RequirementX60.png'/></div><div class='col-xs-6 col-md-6  col-lg-6'><span class='titre happy'>81.2M</span></div></div></div>");
+			
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Multi-sector for refugees</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>94K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>94K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>45.1M</span></div></div></div>";
             
-          
+            $("#SectorInfo").html(contenu);
+			//$("#SectorInfoMobile").html(contenu);
+			
+			break;
+		case 'ImgCoor':
+			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Lac","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Yobe","inNeeds":0,"Target":0,"FondsRequis":31193662,"Resume":null},{"region":"Borno","inNeeds":0,"Target":0,"FondsRequis":31193662,"Resume":null},{"region":"Far-North","inNeeds":0,"Target":0,"FondsRequis":6613755,"Resume":null},{"region":"Adamawa","inNeeds":0,"Target":0,"FondsRequis":31193662,"Resume":null},{"region":"Total","inNeeds":0,"Target":0,"FondsRequis":31193662,"Resume":null}]';
             
 			
-			contenu="<div class='col-lg-12 titre ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Multi-Sector for refugees</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>94</span><span class='happy'> K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>94K</span><span class='happy'> M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>45.1</span><span class='happy'> M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Coordination and Support Services</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>37.8M</span></div></div></div>";
+            
+            $("#SectorInfo").html(contenu);
+			//$("#SectorInfoMobile").html(contenu);
+			
+			break;
+		case 'ImgTele':
+			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Lac","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Yobe","inNeeds":0,"Target":0,"FondsRequis":5846761,"Resume":null},{"region":"Borno","inNeeds":0,"Target":0,"FondsRequis":5846761,"Resume":null},{"region":"Far-North","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Adamawa","inNeeds":0,"Target":0,"FondsRequis":5846761,"Resume":null},{"region":"Total","inNeeds":0,"Target":0,"FondsRequis":5846761,"Resume":null}]';
+            
+			
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Emergency Telecomunications</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>5.8M</span></div></div></div>";
+            
+            $("#SectorInfo").html(contenu);
+			//$("#SectorInfoMobile").html(contenu);
+			
+			break;
+		case 'ImgLogis':
+			datas = '[{"region":"Diffa","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Lac","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Yobe","inNeeds":0,"Target":0,"FondsRequis":12238706,"Resume":null},{"region":"Borno","inNeeds":0,"Target":0,"FondsRequis":12238706,"Resume":null},{"region":"Far-North","inNeeds":0,"Target":0,"FondsRequis":0,"Resume":null},{"region":"Adamawa","inNeeds":0,"Target":0,"FondsRequis":12238706,"Resume":null},{"region":"Total","inNeeds":0,"Target":0,"FondsRequis":12238706,"Resume":null}]';
+            
+			
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Logistics</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen happy'>N/A</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texte2x happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen happy'>12.2M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -879,27 +931,27 @@ $('#imgGal6Bloc').mouseover(function (e) {
 
 //
 $('#hightLight1').mouseover(function (e) {
-    $('#hoverInsideFront1').fadeOut('fast');
-    $('#hoverInsideBehind1').fadeIn('fast');
+    $('#hoverInsideFront1').hide();
+    $('#hoverInsideBehind1').show();
     
 }).mouseleave(function () {
-    $('#hoverInsideBehind1').fadeOut('slow');
+    $('#hoverInsideBehind1').hide();
     $('#hoverInsideFront1').fadeIn('slow');
 });
 $('#hightLight2').mouseover(function (e) {
-    $('#hoverInsideFront2').fadeOut('fast');
-    $('#hoverInsideBehind2').fadeIn('fast');
+    $('#hoverInsideFront2').hide();
+    $('#hoverInsideBehind2').show();
     
 }).mouseleave(function () {
-    $('#hoverInsideBehind2').fadeOut('slow');
+    $('#hoverInsideBehind2').hide();
     $('#hoverInsideFront2').fadeIn('slow');
 });
 $('#hightLight3').mouseover(function (e) {
-    $('#hoverInsideFront3').fadeOut('fast');
-    $('#hoverInsideBehind3').fadeIn('fast');
+    $('#hoverInsideFront3').hide();
+    $('#hoverInsideBehind3').show();
     
 }).mouseleave(function () {
-    $('#hoverInsideBehind3').fadeOut('slow');
+    $('#hoverInsideBehind3').hide();
     $('#hoverInsideFront3').fadeIn('slow');
 });
 
@@ -937,7 +989,7 @@ $('#GotoPage1').click(function (e) {
     $('#labelPage1').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage1 circle').css({r:"3"});
+    $('#GotoPage1 circle').css({r:"4"});
     $('#labelPage1').fadeOut('slow');
 });
 
@@ -970,7 +1022,7 @@ $('#GotoPage2').click(function (e) {
     $('#labelPage2').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage2 circle').css({r:"3"});
+    $('#GotoPage2 circle').css({r:"4"});
     $('#labelPage2').fadeOut('slow');
 });
 
@@ -998,7 +1050,7 @@ $('#GotoPage3').click(function (e) {
     $('#labelPage3').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage3 circle').css({r:"3"});
+    $('#GotoPage3 circle').css({r:"4"});
     $('#labelPage3').fadeOut('slow');
     
 });
@@ -1025,7 +1077,7 @@ $('#GotoPage4').click(function (e) {
     $('#labelPage4').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage4 circle').css({r:"3"});
+    $('#GotoPage4 circle').css({r:"4"});
     $('#labelPage4').fadeOut('slow');
 });
 
@@ -1051,7 +1103,7 @@ $('#GotoPage5').click(function (e) {
     $('#labelPage5').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage5 circle').css({r:"3"});
+    $('#GotoPage5 circle').css({r:"4"});
     $('#labelPage5').fadeOut('slow');
 });
 
@@ -1077,7 +1129,7 @@ $('#GotoPage6').click(function (e) {
     $('#labelPage6').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage6 circle').css({r:"3"});
+    $('#GotoPage6 circle').css({r:"4"});
     $('#labelPage6').fadeOut('slow');
 });
 
@@ -1098,7 +1150,7 @@ $('#GotoPage7').click(function (e) {
     $('#labelPage7').fadeIn('slow');
     
 }).mouseleave(function () {
-    $('#GotoPage7 circle').css({r:"3"});
+    $('#GotoPage7 circle').css({r:"4"});
     $('#labelPage7').fadeOut('slow');
 });
 
@@ -1181,7 +1233,7 @@ $('#blocStory8').click(function (e) {
 });
 
 $('#blocStory9').click(function (e) {
-    window.open('http://www.unocha.org/sahel', 'name'); 
+    window.open('https://unocha.exposure.co/the-hard-path-home', 'name'); 
 }).mouseover(function (e) {
     $('#blocStory9 .storieFooter').fadeIn('slow');
 }).mouseleave(function () {
@@ -1334,3 +1386,11 @@ $('#socialImg4').click(function (e) {
 $('#socialImg5').click(function (e) {
     window.open('https://www.youtube.com/ochafilms', 'name'); 
 });
+
+
+
+
+
+
+
+//AFFICHER ICONE CLIC SUR IMAGES
