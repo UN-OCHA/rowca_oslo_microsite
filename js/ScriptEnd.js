@@ -1021,7 +1021,7 @@ $('#Menu img').click(function (e) {
 
             
 			
-			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Water, Hygiene and Sanitation (WASH)</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen3 happy'>4.6M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen3 happy'>764K</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen3 happy'>81.2M</span></div></div></div>";
+			contenu="<div class='col-lg-12 titreBig2 ContenuAGauche happy'>Lake Chad Basin</div><div class='col-lg-12 titre ContenuAGauche'>Water, Hygiene and Sanitation (WASH)</div><div class='col-lg-12'><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>People in need</span></div><div><img src='images/peopleUrgent.png'/><span class='texteMoyen3 happy'>4.6M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>People targeted</span></div><div><img src='images/TargetX30.png'/><span class='texteMoyen3 happy'>2.7M</span></div></div><div class='col-xs-4 col-sm-4 col-md-4 col-lg-4 centrerContenu'><div><span class='texteMoyen happy'>2017 requirement</span></div><div><img src='images/RequirementX30.png'/><span class='texteMoyen3 happy'>81.2M</span></div></div></div>";
             
             $("#SectorInfo").html(contenu);
 			//$("#SectorInfoMobile").html(contenu);
@@ -1088,6 +1088,29 @@ $(document).scroll(function() {
     var timeOffSet = $("#time1").offset();
     
     placeTimeline();
+    
+    
+    
+    var page2Offset = $("#page2").offset();
+   
+    
+    var v1 = ((page2Offset.top/$(document).height())+0.05);
+    var v2 = (($(window).height() + $(window).scrollTop()) / $(document).height());
+
+    
+    if(v1<=v2){
+        //console.log("show page 2 :"+v1+"-"+v2);
+        if(v1<(v2/2)){
+            $("#embebBloc").html("");
+            $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
+        }else{
+            $("#embebBloc").html("");
+            $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=1'></iframe>");
+        }
+    }else{
+        $("#embebBloc").html("");
+        $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
+    }
     
     //console.log( "P1 " + ((img2Offset.top/$(document).height())+0.05));
     //console.log( "P2 " + (($(window).height() + $(window).scrollTop()) / $(document).height()));
