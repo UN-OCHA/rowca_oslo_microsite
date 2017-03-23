@@ -1101,15 +1101,18 @@ $(document).scroll(function() {
     if(v1<=v2){
         //console.log("show page 2 :"+v1+"-"+v2);
         if(v1<(v2/2)){
-            $("#embebBloc").html("");
-            $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
+            toggleVideo("pause");
+            //$("#embebBloc").html("");
+            //$("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
         }else{
-            $("#embebBloc").html("");
-            $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=1'></iframe>");
+            toggleVideo("play");
+            //$("#embebBloc").html("");
+            //$("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=1'></iframe>");
         }
     }else{
-        $("#embebBloc").html("");
-        $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
+        toggleVideo("pause");
+        //$("#embebBloc").html("");
+        //$("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=0'></iframe>");
     }
     
     //console.log( "P1 " + ((img2Offset.top/$(document).height())+0.05));
@@ -1313,10 +1316,10 @@ $('#GotoPage2').click(function (e) {
         $("#page2").css("height",$(window).height());
     }
     
-    srcVideo = $("#myVideo")[0].src;
-
-    $("#embebBloc").html("");
-    $("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=1'></iframe>");
+    //srcVideo = $("#myVideo")[0].src;
+    toggleVideo("play");
+    //$("#embebBloc").html("");
+    //$("#embebBloc").html("<iframe class='embed-responsive-item' id='myVideo' src='https://www.youtube.com/embed/ChuBl5KSzr4?autoplay=1'></iframe>");
     //$("#myVideo")[0].src = srcVideo+"?autoplay=1";
     
 

@@ -632,6 +632,9 @@ body{
     height:76px;
     color:#ffffff;
 }
+.blocStory:hover{
+     cursor:pointer;
+}
 .blocHdx:hover{
      cursor:pointer;
 }

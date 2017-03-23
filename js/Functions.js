@@ -48,3 +48,8 @@ function LoadAdmin2Map(destination,map){
 	
 	
 }
+function toggleVideo(state) {
+    var iframe = document.getElementsByTagName("iframe")[0].contentWindow;
+    func = state == 'pause' ? 'pauseVideo' : 'playVideo';
+    iframe.postMessage('{"event":"command","func":"' + func + '","args":""}','*');
+}
