@@ -933,6 +933,7 @@ tr:last-of-type td {
 .CountryName {
 	font-size:30px;
 	margin-top:55px;
+	padding-left: 20px;
 }
 .figureCountry {
 	font-size:30px;
