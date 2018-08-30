@@ -332,8 +332,12 @@ $(document).ready(function () {
 		var markup = '';
 		for (i = 0; i < displacedByCountry.length; i++) {
 			var percentage = Math.round(displacedByCountry[i]["total"]/highest["total"] * 100);
+			var country = displacedByCountry[i]["label"];
+			if(country=="Nigeria"){
+				country = "* Nigeria";
+			}
 			markup += '<tr>'+
-						'<td class="county-name" data-localize="' + displacedByCountry[i]["data_localization_code"] + '">' + displacedByCountry[i]["label"] + '</td>'+
+						'<td class="county-name" data-localize="' + displacedByCountry[i]["data_localization_code"] + '">' + country + '</td>'+
 						'<td class="in-need-amount"><span class="decimal-figure">' + nFormatter(displacedByCountry[i]["total"], false) + '</span></td>'+
 						'<td>'+
 							'<div class="percentage" style="width:' + percentage + '%"></div>'+
