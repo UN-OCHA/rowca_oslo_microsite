@@ -544,14 +544,81 @@
 						<h1 data-localize="protection_title" class='situation' ></h1>
 						<p data-localize="protection_text" class='Sectiontext' ></p>
 					</div>
-					<div class="row">
-		
-						
-						<div class="col0 infobox">
-							<iframe width="100%" height="520" frameborder="0" src="https://chamsmarena.carto.com/builder/e9714b00-b5ee-4c4a-bbd8-a9d2cc077a38/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+					<div>
+						<div class="row">
+							<div id="incidentsCountry" class="col3 infobox">
+								<img class="sectionicon" src="img/icon-SSD-harassment.png"/>
+								<h3 data-localize="malnourished_title">Number of incidents</h3>
+								<div class="col1">
+									<p class="figure" data-localize="figure_malnourished"><span class="big-number decimal-figure">497</span></p>
+								</div>
+								
+								<div class="infographic">
+									<table id='tableChart'>
+										<!-- data inserts here -->
+									</table>
+								</div>
+								<p class="sources" data-localize="protection_sources">Sources: ACLED</p>
+							</div>
+
+							<div class="carte2x3 infobox">
+							<iframe width="100%" height="520" frameborder="0" src="https://chamsmarena.carto.com/builder/1d28fa8a-b100-4e52-8f7d-a4a076d75905/embed" allowfullscreen webkitallowfullscreen mozallowfullscreen oallowfullscreen msallowfullscreen></iframe>
+							<p class="sources" data-localize="health_sources">Sources: ACLED</p>
+							</div>
 						</div>
+						<div>
+							<div style='height=100px;'>
+								<h3 data-localize="cholera_title">EVOLUTION OF INCIDENTS</h3>
+								<canvas id="incidenttimeline" width="100%" height="20%"></canvas>
+								<p class="sources" data-localize="protection_sources">Sources: ACLED</p>
+							</div>
+							
+							<script>
+
+								var option = {
+									legend: {display: false},
+									title: {
+										display: true,text: '# incidents',fontSize:16,fontColor:"#ffffff"
+									},
+									 scales: {
+										yAxes: [
+											{
+												ticks: {
+													callback: function(label, index, labels) {
+														if(label==0){
+															return '0';
+														}else{
+															return label;
+														}
+													},
+													maxTicksLimit:3,
+													beginAtZero:true
+												}
+											}
+										]
+									}
+								};
+								
+								
+								var ctxAcled = document.getElementById('incidenttimeline').getContext('2d');
+								var ChartAcled = new Chart(ctxAcled, {type: 'line',
+									data: {labels: ['janv-17','','','','','','','','','','','','','','','','','','juil-18'],
+									datasets: [{
+									  label: '# incidents',
+									  data: [32,19,13,21,23,44,23,45,44,27,38,24,27,19,21,21,18,21,17],
+									  borderColor:"#0c64af",
+										pointRadius: 5
+										
+									}]
+								},options: option});
+									
+
+								</script>
+						
+						</div>
+						
 					</div>
-					<p class="sources" data-localize="protection_sources">Sources: ACLED</p>
+					
 				</div>
 				
 				<div class="big-photo" id="protection-photo">
@@ -561,6 +628,8 @@
 					</div>
 				</div>
 			</section>
+			
+		
 			
 			
 			
