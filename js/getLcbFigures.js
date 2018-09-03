@@ -428,6 +428,7 @@ $(document).ready(function () {
 		{"label" : "Chad","data_localization_code" : "emergency_label","total" : incidentsChad}
 	];
 	
+	
 	$('#incidentsCountry table').html(function() {
 		var highest = getHighest(incidents, "total");
 		var markup = '';
