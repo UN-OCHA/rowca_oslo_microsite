@@ -412,6 +412,35 @@ $(document).ready(function () {
 	});
 	
 	
+	/* ***** PEOPLE SEVERELY FOOD INSECURE BY COUNTRY ***** */
+	var foodsecurityphaseNiger = figuresNiger.FoodInsecurePeople;
+	var foodsecurityphaseCameroun = figuresCameroun.FoodInsecurePeople;
+	var foodsecurityphaseNigeria = figuresNigeria.FoodInsecurePeople;
+	var foodsecurityphaseChad = figuresChad.FoodInsecurePeople;
+	
+	var foodSecPeople = [
+		{"label" : "Nigeria","data_localization_code" : "stressed_label","total" : foodsecurityphaseNigeria},
+		{"label" : "Cameroon","data_localization_code" : "catastrophe_label","total" : foodsecurityphaseCameroun},
+		{"label" : "Niger","data_localization_code" : "crisis_label","total" : foodsecurityphaseNiger},
+		{"label" : "Chad","data_localization_code" : "emergency_label","total" : foodsecurityphaseChad}
+	];
+	
+	$('#foodsecurityphaseAdmin1 table').html(function() {
+		var highest = getHighest(foodSecPeople, "total");
+		var markup = '';
+		for (i = 0; i < foodSecPeople.length; i++) {
+			var percentage = Math.round(foodSecPeople[i]["total"]/highest["total"] * 100);
+			markup += '<tr>'+
+						'<td class="county-name" data-localize="' + foodSecPeople[i]["data_localization_code"] + '">' + foodSecPeople[i]["label"] + '</td>'+
+						'<td class="in-need-amount"><span class="decimal-figure">' + nFormatter(foodSecPeople[i]["total"], false) + '</span></td>'+
+						'<td>'+
+							'<div class="percentage" style="width:' + percentage + '%"></div>'+
+						'</td>'+
+					'</tr>';
+		}
+		return markup;
+	});
+	
 	
 	
 	/* ***** NUMBER INCIDENTS BY COUNTRY ***** */
@@ -421,7 +450,6 @@ $(document).ready(function () {
 	var incidentsChad = 6;
 	
 	var incidents = [
-		
 		{"label" : "Cameroon","data_localization_code" : "catastrophe_label","total" : incidentsCameroun},
 		{"label" : "Nigeria","data_localization_code" : "stressed_label","total" : incidentsNigeria},
 		{"label" : "Niger","data_localization_code" : "crisis_label","total" : incidentsNiger},
