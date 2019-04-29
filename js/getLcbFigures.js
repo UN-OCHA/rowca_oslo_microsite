@@ -444,10 +444,10 @@ $(document).ready(function () {
 	
 	
 	/* ***** NUMBER INCIDENTS BY COUNTRY ***** */
-	var incidentsNiger = 18;
-	var incidentsCameroun = 29;
-	var incidentsNigeria = 31;
-	var incidentsChad = 5;
+	var incidentsNiger = 53;
+	var incidentsCameroun = 80;
+	var incidentsNigeria = 137;
+	var incidentsChad = 11;
 	
 	var incidents = [
 		{"label" : "Cameroon","data_localization_code" : "catastrophe_label","total" : incidentsCameroun},
