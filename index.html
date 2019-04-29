@@ -498,7 +498,7 @@
 						<div class="row">
 							<div id="incidentsCountry" class="col3 infobox">
 								<img class="sectionicon" src="img/icon-SSD-harassment.png"/>
-								<h3 data-localize="malnourished_title">Number of incidents (JAN - MAR 2019)</h3>
+								<h3 data-localize="malnourished_title">Number of incidents (JAN - APR 2019)</h3>
 								<div class="col1">
 									<p class="figure" data-localize="figure_malnourished"><span class="big-number decimal-figure">83</span></p>
 								</div>
@@ -518,7 +518,7 @@
 						</div>
 						<div>
 							<div style='height=100px;'>
-								<h3 data-localize="cholera_title">EVOLUTION OF INCIDENTS (JAN 2017 - JUL 2018)</h3>
+								<h3 data-localize="cholera_title">EVOLUTION OF INCIDENTS (JAN 2017 - MAR 2019)</h3>
 								<canvas id="incidenttimeline" width="100%" height="20%"></canvas>
 								<p class="sources" data-localize="protection_sources">Sources: ACLED</p>
 							</div>
@@ -552,10 +552,10 @@
 								
 								var ctxAcled = document.getElementById('incidenttimeline').getContext('2d');
 								var ChartAcled = new Chart(ctxAcled, {type: 'line',
-									data: {labels: ['janv-17','','','','','','','','','','','','','','','','','','juil-18'],
+									data: {labels: ['jan. 17','','','apr. 17','','','jul. 17','','','oct. 17','','','jan. 18','','','apr. 18','','','jul. 18','','','oct. 18','','','jan. 19','','','apr. 19'],
 									datasets: [{
 									  label: '# incidents',
-									  data: [32,19,13,21,23,44,23,45,44,27,38,24,27,19,21,21,18,21,17],
+									  data: [32,19,13,21,23,44,23,45,44,27,38,24,27,19,21,21,18,21,17,85,125,154,104,149,137,124,135,65],
 									  borderColor:"#0c64af",
 										pointRadius: 5
 										
