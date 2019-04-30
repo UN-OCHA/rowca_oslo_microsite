@@ -19,16 +19,7 @@ var bloc5 = {};
 
 
 
-function doData(json) {
-  spData = json.feed.entry;
-}
 
-function GetSlideData(json) {
-	slideData = json.feed.entry;
-}
-function GetBlocData(json) {
-	blocData = json.feed.entry;
-}
 
 
 function formatNumber(n) {
@@ -39,121 +30,67 @@ function formatNumber(n) {
 	if (n == 0) return '<span  class=decimal-figure>-</span>';
 }
 
-function readData(parent) {
-	var data = spData;
-	var rowData = [];
-	var row = 0;
+function readData() {
 
-	for (var r = 0; r < data.length; r++) {
-	var cell = data[r]["gs$cell"];
-	var val = cell["$t"];
-	if (cell.col == 1) {
+	figuresNiger["PeopleInNeed"]=461323;
+	figuresNiger["PeopleTargeted"]=419000;
+	figuresNiger["Requirement"]=235838395;
+	figuresNiger["FoodInsecurePeople"]=289211;
+	figuresNiger["SAMBurden"]=15635;
+	figuresNiger["Refugees"]=118868;
+	figuresNiger["IDPs"]=104288;
+	figuresNiger["returnes"]=25731;
+	figuresNiger["funding"]=1145889;
 
+	figuresCameroun["PeopleInNeed"]=1851428;
+	figuresCameroun["PeopleTargeted"]=832729;
+	figuresCameroun["Requirement"]=121505642;
+	figuresCameroun["FoodInsecurePeople"]=1402195;
+	figuresCameroun["SAMBurden"]=31533;
+	figuresCameroun["Refugees"]=139399;
+	figuresCameroun["IDPs"]=233144;
+	figuresCameroun["returnes"]=0;
+	figuresCameroun["funding"]=2209018;
 
-	  
-	  if(rowData[0]=="Niger"){
-		figuresNiger["PeopleInNeed"]=parseFloat(rowData[1]);
-		figuresNiger["PeopleTargeted"]=parseFloat(rowData[2]);
-		figuresNiger["Requirement"]=parseFloat(rowData[3]);
-		figuresNiger["FoodInsecurePeople"]=parseFloat(rowData[4]);
-		figuresNiger["SAMBurden"]=parseFloat(rowData[5]);
-		figuresNiger["Refugees"]=parseFloat(rowData[6]);
-		figuresNiger["IDPs"]=parseFloat(rowData[7]);
-		figuresNiger["returnes"]=parseFloat(rowData[8]);
-		figuresNiger["funding"]=parseFloat(rowData[9]);
-	  }
-	  
-	  if(rowData[0]=="Cameroon"){
-		figuresCameroun["PeopleInNeed"]=parseFloat(rowData[1]);
-		figuresCameroun["PeopleTargeted"]=parseFloat(rowData[2]);
-		figuresCameroun["Requirement"]=parseFloat(rowData[3]);
-		figuresCameroun["FoodInsecurePeople"]=parseFloat(rowData[4]);
-		figuresCameroun["SAMBurden"]=parseFloat(rowData[5]);
-		figuresCameroun["Refugees"]=parseFloat(rowData[6]);
-		figuresCameroun["IDPs"]=parseFloat(rowData[7]);
-		figuresCameroun["returnes"]=parseFloat(rowData[8]);
-		figuresCameroun["funding"]=parseFloat(rowData[9]);
-	  }
-	  
-	  if(rowData[0]=="Nigeria"){
-		figuresNigeria["PeopleInNeed"]=parseFloat(rowData[1]);
-		figuresNigeria["PeopleTargeted"]=parseFloat(rowData[2]);
-		figuresNigeria["Requirement"]=parseFloat(rowData[3]);
-		figuresNigeria["FoodInsecurePeople"]=parseFloat(rowData[4]);
-		figuresNigeria["SAMBurden"]=parseFloat(rowData[5]);
-		figuresNigeria["Refugees"]=parseFloat(rowData[6]);
-		figuresNigeria["IDPs"]=parseFloat(rowData[7]);
-		figuresNigeria["returnes"]=parseFloat(rowData[8]);
-		figuresNigeria["funding"]=parseFloat(rowData[9]);
-	  }
-	  
-	 
-	  
-	  
-	  rowData = [];
-	  row++;
-	}
+	figuresNigeria["PeopleInNeed"]=7124606;
+	figuresNigeria["PeopleTargeted"]=6191945;
+	figuresNigeria["Requirement"]=847703581;
+	figuresNigeria["FoodInsecurePeople"]=2735603;
+	figuresNigeria["SAMBurden"]=368000;
+	figuresNigeria["Refugees"]=0;
+	figuresNigeria["IDPs"]=1734776;
+	figuresNigeria["returnes"]=0;
+	figuresNigeria["funding"]=145109646;
 
-
-
-	rowData.push(val);
-  }
-	if(rowData[0]=="Chad"){
-		figuresChad["PeopleInNeed"]= parseFloat(rowData[1]);
-		figuresChad["PeopleTargeted"]=parseFloat(rowData[2]);
-		figuresChad["Requirement"]=parseFloat(rowData[3]);
-		figuresChad["FoodInsecurePeople"]=parseFloat(rowData[4]);
-		figuresChad["SAMBurden"]=parseFloat(rowData[5]);
-		figuresChad["Refugees"]=parseFloat(rowData[6]);
-		figuresChad["IDPs"]=parseFloat(rowData[7]);
-		figuresChad["returnes"]=parseFloat(rowData[8]);
-		figuresChad["funding"]=parseFloat(rowData[9]);
-	  }
+	figuresChad["PeopleInNeed"]= 486388;
+	figuresChad["PeopleTargeted"]=353000;
+	figuresChad["Requirement"]=140413837;
+	figuresChad["FoodInsecurePeople"]=346824;
+	figuresChad["SAMBurden"]=10961;
+	figuresChad["Refugees"]=14894;
+	figuresChad["IDPs"]=130472;
+	figuresChad["returnes"]=41199;
+	figuresChad["funding"]=3256491;
+	  
 }
 
-function readSlideData(parent) {
-	var data = slideData;
-	var rowData = [];
-	var row = 0;
-
-	for (var r = 0; r < data.length; r++) {
-		var cell = data[r]["gs$cell"];
-		var val = cell["$t"];
+function readSlideData() {
+	slide1["texte"]="Nigeria and<br/>the Lake Chad region:";
+	slide1["figure"]="9.9 MILLION";
+	slide1["paragraph"]="People in Need";
 		
-		if (cell.col == 1) {
-			if(rowData[0]=="title1"){
-				slide1["texte"]=rowData[1];
-				slide1["figure"]=rowData[2];
-				slide1["paragraph"]=rowData[3];
-			}
-			
-			if(rowData[0]=="title2"){
-				slide2["texte"]=rowData[1];
-				slide2["figure"]=rowData[2];
-				slide2["paragraph"]=rowData[3];
-			}
-			
-			if(rowData[0]=="title3"){
-				slide3["texte"]=rowData[1];
-				slide3["figure"]=rowData[2];
-				slide3["paragraph"]=rowData[3];
-			}
-	  
-			rowData = [];
-			row++;
-		}
-		
-		if(rowData[0]=="title4"){
-			slide4["texte"]=rowData[1];
-			slide4["figure"]=rowData[2];
-			slide4["paragraph"]=rowData[3];
-
-			console.log("rowdatattt3 -- "+rowData);
-		}
-
-		rowData.push(val);
-	}
+	slide2["texte"]="Nigeria and<br/>the Lake Chad region:";
+	slide2["figure"]="2.2 MILLION";
+	slide2["paragraph"]="People Displaced";
 	
+	slide3["texte"]="Nigeria and<br/>the Lake Chad region:";
+	slide3["figure"]="4.7 MILLION";
+	slide3["paragraph"]="People Severely Food Insecure";
+
+	slide4["texte"]="Nigeria and<br/>the Lake Chad region:";
+	slide4["figure"]="426K";
+	slide4["paragraph"]="Children Severly Malnourished";
+
 	
 	//INSERT VALUES
 	$("#title1 .texteSlide").html(slide1.texte);
@@ -172,57 +109,35 @@ function readSlideData(parent) {
 	$("#title4 .figureSlide").html(slide4.figure);
 	$("#title4 .paragraphSlide").html(slide4.paragraph);
 
-	console.log("slide4.paragraph--"+slide4.paragraph);
+
 
 }
 
-function readBlocData(parent) {
-	var data = blocData;
-	var rowData = [];
-	var row = 0;
+function readBlocData() {
 
-	for (var r = 0; r < data.length; r++) {
-		var cell = data[r]["gs$cell"];
-		var val = cell["$t"];
-		
-		if (cell.col == 1) {
-			if(rowData[0]=="SectionSituation"){
-				bloc1["situation"]=rowData[1];
-				bloc1["Sectiontext"]=rowData[2];
-				bloc1["Sectionphotocaption"]=rowData[3];
-			}
-			
-			if(rowData[0]=="Sectionfood-security"){
-				bloc2["situation"]=rowData[1];
-				bloc2["Sectiontext"]=rowData[2];
-				bloc2["Sectionphotocaption"]=rowData[3];
-			}
-			
-			if(rowData[0]=="SectionProtection"){
-				bloc3["situation"]=rowData[1];
-				bloc3["Sectiontext"]=rowData[2];
-				bloc3["Sectionphotocaption"]=rowData[3];
-			}
-			
-			if(rowData[0]=="SectionEducation"){
-				bloc4["situation"]=rowData[1];
-				bloc4["Sectiontext"]=rowData[2];
-				bloc4["Sectionphotocaption"]=rowData[3];
-			}
-	  
-			rowData = [];
-			row++;
-		}
-		
-		if(rowData[0]=="SectionFunding"){
-			bloc5["situation"]=rowData[1];
-			bloc5["Sectiontext"]=rowData[2]
-			//console.log('rowData');
-			//console.log(rowData);
-		}
+	bloc1["situation"]="Situation";
+	bloc1["Sectiontext"]="<p>The crisis in the Lake Chad region is affecting millions of people across Cameroon, Chad, Niger, and Nigeria. After nine years of conflict, 9.9 million people need relief assistance to survive.</p><p>Stepped-up humanitarian response to the emergency helped avert famine in 2017 but gains remain highly fragile. One in two families still require sustained assistance to survive and rebuild their lives.</p>";
+	bloc1["Sectionphotocaption"]="The humanitarian assistance is saving many lives. But needs remain acute and will persist at large scale into 2019 and beyond.";
 
-		rowData.push(val);
-	}
+
+	bloc2["situation"]="Food Security";
+	bloc2["Sectiontext"]="Food insecurity is on the rise again as the lean season in 2018 has been one of the most difficult in years in many areas across the Lake Chad region. Five million people are acutely food insecure and require sustained and heightened food and livelihood assistance. In 2017, only massively scaled-up aid delivery helped avert a famine. <br>In much of the conflict-hit areas, severe acute malnutrition has surpassed the emergency threshold. Half a million severely malnourished children across the region need life-saving assistance.";
+	bloc2["Sectionphotocaption"]="Today over two million people are receiving food assistance across the region. These crucial achievements need to be bolstered to pave the way to restoring livelihoods. ";
+
+
+
+	bloc3["situation"]="Protection of civilians";
+	bloc3["Sectiontext"]="Villages, towns and even sites hosting displaced people recurrently come under attack, hitting civilians the hardest. Kidnappings, fatal attacks, sexual and gender-based violence, exploitation and abuse continue to occur. Since 2013, more than a thousand children in north-east Nigeria have been abducted by armed groups, and dozens have been forced to carry out attacks with explosives strapped to their bodies.";
+	bloc3["Sectionphotocaption"]="With greater resources we can lead a more effective and coherent humanitarian response placing emphasis on the protection of women children and aid workers and advocating that we are “not a target”.";
+
+
+	bloc4["situation"]="Education";
+	bloc4["Sectiontext"]="Ongoing conflict, displacement and fear of attacks on schools is putting the education of more than 3.5 million children at risk. Attacks, looting and occupation have shut down almost a thousand schools, leaving hundred of thousands of children, half of them girls, without education or forced to go to schools outside their communities.";
+	bloc4["Sectionphotocaption"]="While hundreds of thousands have returned to or near their homes in recent years, resuming normal life is far from easy due to destruction of their homes, schools, health centres and other infrastructure.";
+
+	bloc5["situation"]="Funding Needs";
+	bloc5["Sectiontext"]="Concerted efforts by humanitarian actors and the Governments helped avert a famine in 2017. Food insecurity and malnutrition however, remain high in the conflict-hit regions of Cameroon, Chad, Niger and Nigeria. Humanitarian organisations are in 2018 requesting for US$1.6 billion to ease hunger, provide water, shelter, hygiene, healthcare, protection and education and help communities rebuild their lives and livelihoods.";
+
 	
 	
 	//INSERT VALUES
@@ -251,13 +166,9 @@ function readBlocData(parent) {
   
   
 $(document).ready(function () {
-	readData($("#data"));
-	readSlideData($("#data"));
-	readBlocData($("#data"));
-	
-	//*****************
-	//10.7M PEOPLE IN NEED
-	//*****************
+	readData();
+	readSlideData();
+	readBlocData();
 	
 	
 	/* ***** CAMEMBERT CHIFFRES PEOPLE DISPLACED ***** */
