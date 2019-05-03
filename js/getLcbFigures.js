@@ -136,7 +136,7 @@ function readBlocData() {
 	bloc4["Sectionphotocaption"]="While hundreds of thousands have returned to or near their homes in recent years, resuming normal life is far from easy due to destruction of their homes, schools, health centres and other infrastructure.";
 
 	bloc5["situation"]="Funding Needs";
-	bloc5["Sectiontext"]="Concerted efforts by humanitarian actors and the Governments helped avert a famine in 2017. Food insecurity and malnutrition however, remain high in the conflict-hit regions of Cameroon, Chad, Niger and Nigeria. Humanitarian organisations are in 2018 requesting for US$1.6 billion to ease hunger, provide water, shelter, hygiene, healthcare, protection and education and help communities rebuild their lives and livelihoods.";
+	bloc5["Sectiontext"]="Concerted efforts by humanitarian actors and the Governments helped avert a famine in 2017. Food insecurity and malnutrition however, remain high in the conflict-hit regions of Cameroon, Chad, Niger and Nigeria. Humanitarian organisations are in 2018 requesting for US$1.3 billion to ease hunger, provide water, shelter, hygiene, healthcare, protection and education and help communities rebuild their lives and livelihoods.";
 
 	
 	
@@ -175,6 +175,11 @@ $(document).ready(function () {
 	var refugees = figuresNiger.Refugees + figuresCameroun.Refugees + figuresNigeria.Refugees + figuresChad.Refugees;
 	var idps = figuresNiger.IDPs + figuresCameroun.IDPs + figuresNigeria.IDPs + figuresChad.IDPs;
 	var returnes = figuresNiger.returnes + figuresCameroun.returnes + figuresNigeria.returnes + figuresChad.returnes;
+	var totalIdps = refugees+idps+returnes;
+
+	
+	$("#total_displaced").html(nFormatter(totalIdps, false));
+	
 
 	var dataset = [
 		{ "label": "IDPs", "amount": idps, "color" : "rgb(65,143,222)","localize_label" : "idps_label"},
@@ -265,6 +270,8 @@ $(document).ready(function () {
 	var foodsecurityphaseCameroun = figuresCameroun.FoodInsecurePeople;
 	var foodsecurityphaseNigeria = figuresNigeria.FoodInsecurePeople;
 	var foodsecurityphaseChad = figuresChad.FoodInsecurePeople;
+	var total_fis = foodsecurityphaseNiger+foodsecurityphaseCameroun+foodsecurityphaseNigeria+foodsecurityphaseChad;
+	$("#total_fis").html(nFormatter(total_fis, false));
 
 	var foodsecurityphase = [
 		{"label" : "Nigeria","data_localization_code" : "stressed_label","total" : foodsecurityphaseNigeria},
@@ -297,6 +304,9 @@ $(document).ready(function () {
 	var SAMBurdenCameroun = figuresCameroun.SAMBurden;
 	var SAMBurdenNigeria = figuresNigeria.SAMBurden;
 	var SAMBurdenChad = figuresChad.SAMBurden;
+
+	var total_sam = SAMBurdenNiger+SAMBurdenCameroun+SAMBurdenNigeria+SAMBurdenChad;
+	$("#total_sam").html(nFormatter(total_sam, false));
 	
 	var peopleinneed = [
 		{"label" : "Nigeria","data_localization_code" : "protection_cluster","total" : SAMBurdenNigeria},
