@@ -1,0 +1,55 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+		<title>Crisis in Lake Chad Region</title>
+		<meta name="description" content="Lake Chad Region Crisis"/>
+		<meta name="author" content="OCHA Visual Information Unit"/>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+		
+		<meta name="twitter:card" content="Lake Chad Region" />
+		<meta name="twitter:site" content="@unocha" />
+		<meta name="twitter:creator" content="@unocha" />
+		<meta property="og:url" content="https://lcb.unocha.org" />
+		<meta property="og:type" content="website" />
+		<meta property="og:title" content="Lake Chad Region Crisis" />
+		<meta property="og:description" content="Due to new offensives and clashes since the beginning of 2017 the humanitarian crisis in South Sudan has grown to epic proportions—with food insecurity, cholera and malaria, and displacement being the main obstacles facing the country today." />
+		<meta property="og:image" content="http://interactive.unocha.org/emergency/2017_south_sudan/img/img-social-ssdcrisis.jpg" />
+	
+		<!-- Favicon -->
+		<link rel="shortcut icon" href="http://www.unocha.org/sites/default/files/ochaonline_theme_favicon.ico" type="image/x-icon" />
+		<link rel="apple-touch-icon" href="http://www.unocha.org/sites/default/files/ochaonline_theme_favicon.ico">
+		
+
+		
+
+	
+      </script>
+	</head>
+
+			<body>
+	</body>
+	
+</html>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/5.11.0/firebase-firestore.js"></script>
+<script>
+	// Initialize Cloud Firestore through Firebase
+	firebase.initializeApp({
+  apiKey: "AIzaSyDratZJQEACVdrdH14fBYeptiqGLaWTOOw",
+  authDomain: "lcb-unocha-cff27.firebaseapp.com",
+  projectId: "lcb-unocha-cff27"
+});
+
+	var db = firebase.firestore();
+
+	db.collection("pays").get().then((querySnapshot) => {
+    querySnapshot.forEach((doc) => {
+        console.log(`${doc.id} => ${doc.data().pays}`);
+    });
+});
+</script>
