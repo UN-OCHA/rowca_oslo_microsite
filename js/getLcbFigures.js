@@ -40,7 +40,7 @@ function readData() {
 	figuresNiger["Refugees"]=118868;
 	figuresNiger["IDPs"]=104288;
 	figuresNiger["returnes"]=25731;
-	figuresNiger["funding"]=5044291;
+	figuresNiger["funding"]=14961842;
 
 	figuresCameroun["PeopleInNeed"]=1851428;
 	figuresCameroun["PeopleTargeted"]=832729;
@@ -70,7 +70,7 @@ function readData() {
 	figuresChad["Refugees"]=15456;
 	figuresChad["IDPs"]=130472;
 	figuresChad["returnes"]=41199;
-	figuresChad["funding"]=3256491;
+	figuresChad["funding"]=4742922;
 	  
 }
 
