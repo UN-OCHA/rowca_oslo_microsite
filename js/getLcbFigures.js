@@ -80,7 +80,7 @@ function readSlideData() {
 	slide1["paragraph"]="People in Need";
 		
 	slide2["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide2["figure"]="2.3 MILLION";
+	slide2["figure"]="2.5 MILLION";
 	slide2["paragraph"]="People Displaced";
 	
 	slide3["texte"]="Nigeria and<br/>the Lake Chad region:";
