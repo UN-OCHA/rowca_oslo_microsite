@@ -32,45 +32,45 @@ function formatNumber(n) {
 
 function readData() {
 
-	figuresNiger["PeopleInNeed"]=461323;
-	figuresNiger["PeopleTargeted"]=419000;
+	figuresNiger["PeopleInNeed"]=461000;
+	figuresNiger["PeopleTargeted"]=346000;
 	figuresNiger["Requirement"]=235838395;
-	figuresNiger["FoodInsecurePeople"]=80807;
+	figuresNiger["FoodInsecurePeople"]=119310;
 	figuresNiger["SAMBurden"]=15635;
-	figuresNiger["Refugees"]=118868;
-	figuresNiger["IDPs"]=104288;
-	figuresNiger["returnes"]=25731;
-	figuresNiger["funding"]=14961842;
+	figuresNiger["Refugees"]=119541;
+	figuresNiger["IDPs"]=109404;
+	figuresNiger["returnes"]=0;
+	figuresNiger["funding"]=30898793;
 
-	figuresCameroun["PeopleInNeed"]=1851428;
-	figuresCameroun["PeopleTargeted"]=832729;
+	figuresCameroun["PeopleInNeed"]= 1851428;
+	figuresCameroun["PeopleTargeted"]= 881550;
 	figuresCameroun["Requirement"]=121505642;
-	figuresCameroun["FoodInsecurePeople"]=178607;
+	figuresCameroun["FoodInsecurePeople"]=316082;
 	figuresCameroun["SAMBurden"]=31533;
-	figuresCameroun["Refugees"]=139399;
-	figuresCameroun["IDPs"]=241746;
+	figuresCameroun["Refugees"]=106247;
+	figuresCameroun["IDPs"]=256645;
 	figuresCameroun["returnes"]=0;
-	figuresCameroun["funding"]=4152500;
+	figuresCameroun["funding"]=20216923;
 
-	figuresNigeria["PeopleInNeed"]=7124606;
-	figuresNigeria["PeopleTargeted"]=6191945;
+	figuresNigeria["PeopleInNeed"]=7100000;
+	figuresNigeria["PeopleTargeted"]=6200000;
 	figuresNigeria["Requirement"]=847703581;
-	figuresNigeria["FoodInsecurePeople"]=879215;
-	figuresNigeria["SAMBurden"]=368000;
+	figuresNigeria["FoodInsecurePeople"]=2974223;
+	figuresNigeria["SAMBurden"]= 370714;
 	figuresNigeria["Refugees"]=0;
-	figuresNigeria["IDPs"]=1712773;
+	figuresNigeria["IDPs"]=1815174;
 	figuresNigeria["returnes"]=0;
-	figuresNigeria["funding"]=193472440;
+	figuresNigeria["funding"]=456481906;
 
 	figuresChad["PeopleInNeed"]= 486388;
-	figuresChad["PeopleTargeted"]=353000;
+	figuresChad["PeopleTargeted"]=340897;
 	figuresChad["Requirement"]=140413837;
-	figuresChad["FoodInsecurePeople"]=107748;
-	figuresChad["SAMBurden"]=10961;
-	figuresChad["Refugees"]=15456;
-	figuresChad["IDPs"]=130472;
-	figuresChad["returnes"]=41199;
-	figuresChad["funding"]=4742922;
+	figuresChad["FoodInsecurePeople"]=145088;
+	figuresChad["SAMBurden"]=13575;
+	figuresChad["Refugees"]=15999;
+	figuresChad["IDPs"]=124078;
+	figuresChad["returnes"]=0;
+	figuresChad["funding"]=52717118;
 	  
 }
 
@@ -80,15 +80,15 @@ function readSlideData() {
 	slide1["paragraph"]="People in Need";
 		
 	slide2["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide2["figure"]="2.2 MILLION";
+	slide2["figure"]="2.3 MILLION";
 	slide2["paragraph"]="People Displaced";
 	
 	slide3["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide3["figure"]="4.7 MILLION";
+	slide3["figure"]="3.6 MILLION";
 	slide3["paragraph"]="People Severely Food Insecure";
 
 	slide4["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide4["figure"]="426K";
+	slide4["figure"]="431K";
 	slide4["paragraph"]="Children Severly Malnourished";
 
 	
@@ -136,7 +136,7 @@ function readBlocData() {
 	bloc4["Sectionphotocaption"]="While hundreds of thousands have returned to or near their homes in recent years, resuming normal life is far from easy due to destruction of their homes, schools, health centres and other infrastructure.";
 
 	bloc5["situation"]="Funding Needs";
-	bloc5["Sectiontext"]="Concerted efforts by humanitarian actors and the Governments helped avert a famine in 2017. Food insecurity and malnutrition however, remain high in the conflict-hit regions of Cameroon, Chad, Niger and Nigeria. Humanitarian organisations are in 2018 requesting for US$1.3 billion to ease hunger, provide water, shelter, hygiene, healthcare, protection and education and help communities rebuild their lives and livelihoods.";
+	bloc5["Sectiontext"]="Concerted efforts by humanitarian actors and the Governments helped avert a famine in 2017. Food insecurity and malnutrition however, remain high in the conflict-hit regions of Cameroon, Chad, Niger and Nigeria. Humanitarian organisations are in 2019 requesting for US$1.3 billion to ease hunger, provide water, shelter, hygiene, healthcare, protection and education and help communities rebuild their lives and livelihoods.";
 
 	
 	
