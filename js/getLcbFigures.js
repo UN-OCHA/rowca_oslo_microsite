@@ -32,63 +32,63 @@ function formatNumber(n) {
 
 function readData() {
 
-	figuresNiger["PeopleInNeed"]=461000;
-	figuresNiger["PeopleTargeted"]=346000;
+	figuresNiger["PeopleInNeed"]=517798;
+	figuresNiger["PeopleTargeted"]=398257;
 	figuresNiger["Requirement"]=235838395;
-	figuresNiger["FoodInsecurePeople"]=119310;
-	figuresNiger["SAMBurden"]=15635;
-	figuresNiger["Refugees"]=119541;
-	figuresNiger["IDPs"]=109404;
+	figuresNiger["FoodInsecurePeople"]=108568;
+	figuresNiger["SAMBurden"]=20041;
+	figuresNiger["Refugees"]=120619;
+	figuresNiger["IDPs"]=111058;
 	figuresNiger["returnes"]=0;
-	figuresNiger["funding"]=30898793;
+	figuresNiger["funding"]=67531900;
 
-	figuresCameroun["PeopleInNeed"]= 1851428;
-	figuresCameroun["PeopleTargeted"]= 881550;
+	figuresCameroun["PeopleInNeed"]= 993864;
+	figuresCameroun["PeopleTargeted"]= 779908;
 	figuresCameroun["Requirement"]=121505642;
-	figuresCameroun["FoodInsecurePeople"]=316082;
-	figuresCameroun["SAMBurden"]=31533;
-	figuresCameroun["Refugees"]=106247;
-	figuresCameroun["IDPs"]=256645;
+	figuresCameroun["FoodInsecurePeople"]=324285;
+	figuresCameroun["SAMBurden"]=41750;
+	figuresCameroun["Refugees"]=109757;
+	figuresCameroun["IDPs"]=297380;
 	figuresCameroun["returnes"]=0;
-	figuresCameroun["funding"]=20216923;
+	figuresCameroun["funding"]=35507376;
 
-	figuresNigeria["PeopleInNeed"]=7100000;
-	figuresNigeria["PeopleTargeted"]=6200000;
+	figuresNigeria["PeopleInNeed"]=7900000;
+	figuresNigeria["PeopleTargeted"]=5900000;
 	figuresNigeria["Requirement"]=847703581;
-	figuresNigeria["FoodInsecurePeople"]=2974223;
-	figuresNigeria["SAMBurden"]= 370714;
+	figuresNigeria["FoodInsecurePeople"]=3584680;
+	figuresNigeria["SAMBurden"]= 289197;
 	figuresNigeria["Refugees"]=0;
-	figuresNigeria["IDPs"]=1815174;
+	figuresNigeria["IDPs"]=1835429;
 	figuresNigeria["returnes"]=0;
-	figuresNigeria["funding"]=456481906;
+	figuresNigeria["funding"]=565702211;
 
-	figuresChad["PeopleInNeed"]= 486388;
-	figuresChad["PeopleTargeted"]=340897;
+	figuresChad["PeopleInNeed"]= 366680;
+	figuresChad["PeopleTargeted"]=311531;
 	figuresChad["Requirement"]=140413837;
-	figuresChad["FoodInsecurePeople"]=145088;
-	figuresChad["SAMBurden"]=13575;
-	figuresChad["Refugees"]=15999;
-	figuresChad["IDPs"]=124078;
+	figuresChad["FoodInsecurePeople"]=107113;
+	figuresChad["SAMBurden"]=18481;
+	figuresChad["Refugees"]=12535;
+	figuresChad["IDPs"]=169003;
 	figuresChad["returnes"]=0;
-	figuresChad["funding"]=52717118;
+	figuresChad["funding"]=59199696;
 	  
 }
 
 function readSlideData() {
 	slide1["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide1["figure"]="9.9 MILLION";
+	slide1["figure"]="9.8 MILLION";
 	slide1["paragraph"]="People in Need";
 		
 	slide2["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide2["figure"]="2.5 MILLION";
+	slide2["figure"]="2.4 MILLION";
 	slide2["paragraph"]="People Displaced";
 	
 	slide3["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide3["figure"]="3.6 MILLION";
+	slide3["figure"]="4.1 MILLION";
 	slide3["paragraph"]="People Severely Food Insecure";
 
 	slide4["texte"]="Nigeria and<br/>the Lake Chad region:";
-	slide4["figure"]="431K";
+	slide4["figure"]="369K";
 	slide4["paragraph"]="Children Severly Malnourished";
 
 	
@@ -365,10 +365,10 @@ $(document).ready(function () {
 	
 	
 	/* ***** NUMBER INCIDENTS BY COUNTRY ***** */
-	var incidentsNiger = 53;
-	var incidentsCameroun = 80;
-	var incidentsNigeria = 137;
-	var incidentsChad = 11;
+	var incidentsNiger = 14;
+	var incidentsCameroun = 38;
+	var incidentsNigeria = 33;
+	var incidentsChad = 5;
 	
 	var incidents = [
 		{"label" : "Cameroon","data_localization_code" : "catastrophe_label","total" : incidentsCameroun},
